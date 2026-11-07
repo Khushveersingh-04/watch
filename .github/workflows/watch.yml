@@ -4,11 +4,19 @@ on:
   schedule:
     - cron: '17 2,8,14,20 * * *'
   workflow_dispatch:
+    inputs:
+      views:
+        description: 'How many views this run'
+        default: '50'
+
+concurrency:
+  group: rumble-watch
+  cancel-in-progress: false
 
 jobs:
   watch:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -17,3 +25,7 @@ jobs:
       - run: npm install playwright
       - run: npx playwright install --with-deps chromium
       - run: node watch.js
+        env:
+          TARGET: ${{ vars.TARGET }}
+          VIEWS: ${{ github.event.inputs.views || '50' }}
+          PROXIES: ${{ secrets.PROXIES }}
