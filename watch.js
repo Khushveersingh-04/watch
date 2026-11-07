@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 
 const TARGETS = [
-  'https://yourblog.blogspot.com/2026/11/your-post.html',
+  'https://rumble.com/shorts/v7i0axq',
 ];
 
 (async () => {
